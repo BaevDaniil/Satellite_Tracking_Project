@@ -14,20 +14,20 @@ using std::vector;
 
 class SatTrackInterface {
 public:
-	shared_ptr<Antenna> antenna;
+    shared_ptr<Antenna> antenna;
 
-	SatTrackInterface(LPCTSTR portName);
-	SatTrackInterface(vector<string> const& names, double siteLat, double siteLong, int timeSpan);
+    SatTrackInterface(LPCTSTR portName);
+    SatTrackInterface(vector<string> const& names, double siteLat, double siteLong, int timeSpan);
 
-	vector<shared_ptr <Satellite>> getSatellites() const { return satellites; }
-	shared_ptr <Satellite> getSatellite() const;
-	shared_ptr <Satellite> getSatelliteByName(string const& name) const;
-	int getAmount() const { return satellites.size(); };
+    vector<shared_ptr <Satellite>> getSatellites() const { return satellites; }
+    shared_ptr <Satellite> getSatellite() const;
+    shared_ptr <Satellite> getSatelliteByName(string const& name) const;
+    int getAmount() const { return satellites.size(); };
 
-	void connectAntena();
+    void connectAntena();
 
 private:
-	shared_ptr<TleData> tle;
-	shared_ptr<ComPort> port;
-	vector<shared_ptr <Satellite>> satellites;
+    shared_ptr<TleData> tle;
+    shared_ptr<ComPort> port;
+    vector<shared_ptr <Satellite>> satellites;
 };

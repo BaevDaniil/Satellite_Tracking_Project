@@ -79,7 +79,7 @@ void ComPort::readCOM() {
         if (!ReadFile(hSerial, &sReceivedChar, 1, &iSize, 0)) { // получаем 1 байт
             cout << "Impossible to read data from port" << endl;
             exit(-1);
-        }  
+        }
         if (sReceivedChar == '\n') {
             break;
         }
@@ -106,7 +106,7 @@ int ComPort::readOneAngle() {
         if (!ReadFile(hSerial, &sReceivedChar, 1, &iSize, 0)) { // получаем 1 байт
             cout << "Impossible to get data from port" << endl;
             exit(-1);
-        }  
+        }
         if (sReceivedChar == '\r') {
             continue;
         }

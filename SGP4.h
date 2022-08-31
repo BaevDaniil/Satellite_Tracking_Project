@@ -24,15 +24,15 @@
 #include "SatelliteException.h"
 #include "DecayedException.h"
 
-/**
- * @mainpage
- *
- * This documents the SGP4 tracking library.
- */
+ /**
+  * @mainpage
+  *
+  * This documents the SGP4 tracking library.
+  */
 
-/**
- * @brief The simplified perturbations model 4 propagater.
- */
+  /**
+   * @brief The simplified perturbations model 4 propagater.
+   */
 class SGP4
 {
 public:
@@ -163,72 +163,72 @@ private:
         double xni;
         double atime;
     };
-    
+
     void Initialise();
     static void RecomputeConstants(const double xinc,
-                                   double& sinio,
-                                   double& cosio,
-                                   double& x3thm1,
-                                   double& x1mth2,
-                                   double& x7thm1,
-                                   double& xlcof,
-                                   double& aycof);
+        double& sinio,
+        double& cosio,
+        double& x3thm1,
+        double& x1mth2,
+        double& x7thm1,
+        double& xlcof,
+        double& aycof);
     Eci FindPositionSDP4(const double tsince) const;
     Eci FindPositionSGP4(double tsince) const;
     static Eci CalculateFinalPositionVelocity(
-            const DateTime& date,
-            const double e,
-            const double a,
-            const double omega,
-            const double xl,
-            const double xnode,
-            const double xinc,
-            const double xlcof,
-            const double aycof,
-            const double x3thm1,
-            const double x1mth2,
-            const double x7thm1,
-            const double cosio,
-            const double sinio);
+        const DateTime& date,
+        const double e,
+        const double a,
+        const double omega,
+        const double xl,
+        const double xnode,
+        const double xinc,
+        const double xlcof,
+        const double aycof,
+        const double x3thm1,
+        const double x1mth2,
+        const double x7thm1,
+        const double cosio,
+        const double sinio);
     /**
      * Deep space initialisation
      */
     void DeepSpaceInitialise(
-            const double eosq,
-            const double sinio,
-            const double cosio,
-            const double betao,
-            const double theta2,
-            const double betao2,
-            const double xmdot,
-            const double omgdot,
-            const double xnodot);
+        const double eosq,
+        const double sinio,
+        const double cosio,
+        const double betao,
+        const double theta2,
+        const double betao2,
+        const double xmdot,
+        const double omgdot,
+        const double xnodot);
     /**
      * Calculate lunar / solar periodics and apply
      */
     static void DeepSpacePeriodics(
-            const double tsince,
-            const DeepSpaceConstants& ds_constants,
-            double& em,
-            double& xinc,
-            double& omgasm,
-            double& xnodes,
-            double& xll);
+        const double tsince,
+        const DeepSpaceConstants& ds_constants,
+        double& em,
+        double& xinc,
+        double& omgasm,
+        double& xnodes,
+        double& xll);
     /**
      * Deep space secular effects
      */
     static void DeepSpaceSecular(
-            const double tsince,
-            const OrbitalElements& elements,
-            const CommonConstants& c_constants,
-            const DeepSpaceConstants& ds_constants,
-            IntegratorParams& integ_params,
-            double& xll,
-            double& omgasm,
-            double& xnodes,
-            double& em,
-            double& xinc,
-            double& xn);
+        const double tsince,
+        const OrbitalElements& elements,
+        const CommonConstants& c_constants,
+        const DeepSpaceConstants& ds_constants,
+        IntegratorParams& integ_params,
+        double& xll,
+        double& omgasm,
+        double& xnodes,
+        double& em,
+        double& xinc,
+        double& xn);
 
     /**
      * Reset

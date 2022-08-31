@@ -4,16 +4,16 @@
 using std::string;
 
 double Satellite::radiansToDegrees(double x) {
-	return (x * 180 / 3.14159265359);
+    return (x * 180 / 3.14159265359);
 }
 
 Satellite::Satellite(string const& info, string const& name, double siteLat, double siteLong, int timeSpan) : name(name), timeSpan(timeSpan) {
     site = { siteLat, siteLong, 0 };
     obs.SetLocation(site);
     std::string addTab(25 - name.size(), ' ');
-	string str1 = name + addTab;
-	string str2 = info.substr(0, 69);
-	string str3 = info.substr(71, 69);
+    string str1 = name + addTab;
+    string str2 = info.substr(0, 69);
+    string str3 = info.substr(71, 69);
     tle = make_shared<Tle>(str1, str2, str3);
     updateData();
     defineDirection();
@@ -23,12 +23,12 @@ Satellite::Satellite(string const& info, string const& name, double siteLat, dou
 /// Update current satellite data about its geo posotion and look angle
 /// </summary>
 void Satellite::updateData() {
-	info.time = getTle().Epoch().Now();
-	SGP4 sgp4(getTle());
-	Eci eci = sgp4.FindPosition(info.time);
-	info.localTime = info.time.AddHours(3.0);
-	CoordTopocentric topo = obs.GetLookAngle(eci);
-	CoordGeodetic geo = eci.ToGeodetic();
+    info.time = getTle().Epoch().Now();
+    SGP4 sgp4(getTle());
+    Eci eci = sgp4.FindPosition(info.time);
+    info.localTime = info.time.AddHours(3.0);
+    CoordTopocentric topo = obs.GetLookAngle(eci);
+    CoordGeodetic geo = eci.ToGeodetic();
     info.azimuth = radiansToDegrees(topo.azimuth);
     info.elevation = radiansToDegrees(topo.elevation);
     info.longitude = radiansToDegrees(geo.longitude);
@@ -236,7 +236,7 @@ DateTime Satellite::findCrossingPoint(
 }
 
 
-void Satellite::updatePassDetails( CoordGeodetic const& user_geo,
+void Satellite::updatePassDetails(CoordGeodetic const& user_geo,
     SGP4 const& sgp4,
     const DateTime& start_time,
     const DateTime& end_time,
@@ -260,7 +260,7 @@ void Satellite::updatePassDetails( CoordGeodetic const& user_geo,
 
     if (!found_aos && topo.elevation > 0.0) {
         if (start_time == current_time) {
- 
+
             aos_time = start_time;
         }
         else {
@@ -418,7 +418,7 @@ void Satellite::createPassList(
 /// <summary>
 /// Write satellites schedule in file
 /// </summary>
-void Satellite:: writeScheduleIFile() {
+void Satellite::writeScheduleIFile() {
     string path = "../sat_documentation/schedule_" + name + ".txt";
     ofstream file;
     file.open(path);
@@ -471,7 +471,7 @@ void Satellite::createSchedule(int const& numOfDays) {
 /// Check if the satellite is visible now
 /// </summary>
 /// <returns></returns>
-bool Satellite::isVisible(){
+bool Satellite::isVisible() {
     updateData();
     return info.azimuth >= 0 && info.elevation >= 0;
 }

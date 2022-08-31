@@ -12,46 +12,46 @@ class Satellite;
 
 class Antenna {
 public:
-	Antenna() = default;
-	Antenna(shared_ptr<ComPort> port) : port(port) {};
+    Antenna() = default;
+    Antenna(shared_ptr<ComPort> port) : port(port) {};
 
-	void trackSatellite(shared_ptr<Satellite> sat);
+    void trackSatellite(shared_ptr<Satellite> sat);
 
-	int getAzimuth() { return azimuth; }
-	int getElevation() { return elevation; };
+    int getAzimuth() { return azimuth; }
+    int getElevation() { return elevation; };
 
-	void updateCurrentAngles();
+    void updateCurrentAngles();
 
-	void park() { port->turnOnAngles(0, 0); }
+    void park() { port->turnOnAngles(0, 0); }
 
-	void move(int const& az, int const& el) { port->turnOnAngles(az, el); }
+    void move(int const& az, int const& el) { port->turnOnAngles(az, el); }
 
 private:
-	int azimuth = 0;
-	int elevation = 0;
-	bool waitingState = true;
-	shared_ptr<ComPort> port;
-	shared_ptr<Satellite> currentSat = nullptr;
+    int azimuth = 0;
+    int elevation = 0;
+    bool waitingState = true;
+    shared_ptr<ComPort> port;
+    shared_ptr<Satellite> currentSat = nullptr;
 
-	int parkAzimuthToWest(int const& aosAz, int const& losAz);
+    int parkAzimuthToWest(int const& aosAz, int const& losAz);
 
-	int parkAzimuthToEast(int const& aosAz, int const& losAz);
+    int parkAzimuthToEast(int const& aosAz, int const& losAz);
 
-	bool isWaiting() const;
+    bool isWaiting() const;
 
-	int antennaParkAzimuth();
+    int antennaParkAzimuth();
 
-	bool delayToWest(int const& aosAz, int const& losAz) const;
+    bool delayToWest(int const& aosAz, int const& losAz) const;
 
-	bool delayToEast(int const& aosAz, int const& losAz) const;
+    bool delayToEast(int const& aosAz, int const& losAz) const;
 
-	bool azimuthIsInreasing() const;
+    bool azimuthIsInreasing() const;
 
-	bool crossSiteLongtitude();
+    bool crossSiteLongtitude();
 
-	bool crossZero();
+    bool crossZero();
 
-	bool needToConvertAngle();
+    bool needToConvertAngle();
 
-	int convertAngle(int const& angle) const;
+    int convertAngle(int const& angle) const;
 };

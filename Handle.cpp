@@ -64,7 +64,7 @@ void Handle::openNewFile(string const& name, DateTime const& time) {
 /// Write data in file
 /// </summary>
 /// <param name="data"> Data to write in the form of string </param>
-void Handle::writeFile(string const& data ) {
+void Handle::writeFile(string const& data) {
     if (file.is_open()) {
         file << data << endl;
     }

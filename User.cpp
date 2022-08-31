@@ -20,7 +20,7 @@ namespace po = boost::program_options;
 
 
 int main(int argc, char* argv[]) {
-	auto program = make_shared<Program>(argc, argv);
-	program->run();
-	return 0;
+    auto program = make_shared<Program>(argc, argv);
+    program->run();
+    return 0;
 }
