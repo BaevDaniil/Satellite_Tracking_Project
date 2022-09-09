@@ -4,7 +4,7 @@ cmake_minimum_required (VERSION 3.8)
 project ("Satellite_Tracking_Project")
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (Satellite_Tracking_Project "User.cpp"
+add_executable (Satellite_Tracking_Project "Main.cpp"
                                            "Antenna.cpp" "Antenna.hpp"
                                            "ComPort.cpp" "ComPort.hpp"
                                            "Handle.cpp" "Handle.hpp"
@@ -13,10 +13,10 @@ add_executable (Satellite_Tracking_Project "User.cpp"
                                            "SatTrackInterface.cpp" "SatTrackInterface.hpp"
                                            "TleData.cpp" "TleData.hpp")
 
-add_library(spg4 STATIC IMPORTED)
-set_target_properties(spg4 PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/libsgp4/lib/sgp4s.lib)
-set_target_properties(spg4 PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_SOURCE_DIR}/libsgp4/include/SGP4)
-target_link_libraries(Satellite_Tracking_Project spg4)
+add_library(sgp4 STATIC IMPORTED)
+set_target_properties(sgp4 PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/libsgp4/lib/sgp4s.lib)
+set_target_properties(sgp4 PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_SOURCE_DIR}/libsgp4/include/SGP4)
+target_link_libraries(Satellite_Tracking_Project sgp4)
 
 add_library(curl STATIC IMPORTED)
 set_target_properties(curl PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/curl/lib/libcurl-d_imp.lib)
