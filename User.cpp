@@ -18,9 +18,10 @@ using namespace std;
 
 namespace po = boost::program_options;
 
+// file:///C:/Users/EZinyakova/source/repos/html/index.html
 
 int main(int argc, char* argv[]) {
-	auto program = make_shared<Program>(argc, argv);
+	shared_ptr<Program> program = make_shared<Program>(argc, argv);
 	program->run();
 	return 0;
 }

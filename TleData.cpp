@@ -1,8 +1,5 @@
 #include "TleData.hpp"
 
-/// <summary>
-/// Get data about satellites from calestrack and write in string
-/// </summary>
 void TleData::downloadTleData() {
     CURL* curl;
     string dataString;
@@ -19,11 +16,6 @@ void TleData::downloadTleData() {
     tleData = dataString;
 }
 
-/// <summary>
-/// Get TLE data of the specific satellite by its name
-/// </summary>
-/// <param name="name"></param>
-/// <returns></returns>
 string TleData::getSatelliteData(string const& name) {
     size_t pos = tleData.find(name);
     if (pos == string::npos) {

@@ -8,7 +8,7 @@
 #include <CoordGeodetic.h>
 #include <Observer.h>
 #include <fstream>
-#include <curl.h>
+#include "curl/curl.h"
 
 using namespace std;
 
@@ -17,10 +17,21 @@ public:
 
     TleData() { downloadTleData(); }
 
+    /**
+    * \brief Get data about satellites from calestrack and write in string
+    */
     void downloadTleData();
 
+    /**
+    * \brief Get TLE data of the specific satellite by its name
+    * \param name name of the satellite
+    * \return string with satellite data
+    */
     string getSatelliteData(string const& name);
 
+    /**
+    * \brief Print all tle data about satellites
+    */
     void printTle() { cout << tleData << endl; };
 
 private:

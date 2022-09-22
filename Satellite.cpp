@@ -68,9 +68,9 @@ double Satellite::getAzimuthByTime(DateTime const& time) {
 }
 
 /// <summary>
-/// Get satellites longtitude in the specific time
+/// Get satellites longitude in the specific time
 /// </summary>
-/// <param name="time"> UTC time in which it's needed to get longtitude  </param>
+/// <param name="time"> UTC time in which it's needed to get longitude  </param>
 /// <returns></returns>
 double Satellite::getLongitudeByTime(DateTime const& time) {
     SGP4 sgp4(getTle());
@@ -459,7 +459,7 @@ void Satellite::writeScheduleIFile(string const& filename) {
 void Satellite::createSchedule(int const& numOfDays) {
     DateTime start_date = DateTime::Now(true);
     DateTime end_date(start_date.AddDays((double)numOfDays));
-    CoordGeodetic geo(site_latitude, site_longtitude, site_altitude);
+    CoordGeodetic geo(site_latitude, site_longitude, site_altitude);
     SGP4 sgp4(getTle());
     createPassList(geo, sgp4, start_date, end_date, 180);
     if (passList.begin() == passList.end()) {
@@ -480,10 +480,10 @@ bool Satellite::isVisible(){
 /// Define in which direction the satelite is moving
 /// </summary>
 void Satellite::defineDirection() {
-    double first = getLongtitude();
+    double first = getlongitude();
     Sleep(1000);
     updateData();
-    double second = getLongtitude();
+    double second = getlongitude();
     dir = first > second ? Direction::west : Direction::east;
 }
 

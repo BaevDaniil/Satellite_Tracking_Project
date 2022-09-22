@@ -8,11 +8,8 @@
 
 using namespace std;
 
-/// <summary>
-/// Connect to the COM port
-/// </summary>
 void ComPort::getConnection() {
-    hSerial = ::CreateFile((LPCSTR)portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    hSerial = ::CreateFile(portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if (hSerial == INVALID_HANDLE_VALUE) {
         if (GetLastError() == ERROR_FILE_NOT_FOUND) {
             throw exception("serial port does not exist.\n");
@@ -25,9 +22,6 @@ void ComPort::getConnection() {
     setConnectionParams();
 }
 
-/// <summary>
-/// Set parametrs for connection (by default)
-/// </summary>
 void ComPort::setConnectionParams() {
     DCB dcbSerialParams = { 0 };
     dcbSerialParams.DCBlength = sizeof(dcbSerialParams);
@@ -44,9 +38,6 @@ void ComPort::setConnectionParams() {
     }
 }
 
-/// <summary>
-/// Close the port
-/// </summary>
 void ComPort::closePort() {
     if (hSerial != INVALID_HANDLE_VALUE) {
         CloseHandle(hSerial);
@@ -54,10 +45,6 @@ void ComPort::closePort() {
     }
 }
 
-/// <summary>
-/// Send command to the port
-/// </summary>
-/// <param name="com"> Command in form of array of chars </param>
 void ComPort::giveCommand(string const& com) {
     DWORD dwSize = MAX_COM_SIZE;
     DWORD dwBytesWritten;
@@ -69,9 +56,6 @@ void ComPort::giveCommand(string const& com) {
     }
 }
 
-/// <summary>
-/// Print data from COM port
-/// </summary>
 void ComPort::readCOM() {
     DWORD iSize;
     char sReceivedChar;
@@ -93,10 +77,6 @@ void ComPort::readCOM() {
     cout << endl;
 }
 
-/// <summary>
-/// Get one angle from COM port
-/// </summary>
-/// <returns>Get angle from the port</returns>
 int ComPort::readOneAngle() {
     DWORD iSize;
     char sReceivedChar;
@@ -125,11 +105,6 @@ int ConvertCharToInt(char x) {
     return (int)x - 48;
 }
 
-/// <summary>
-/// Convert data from port to ineger angle
-/// </summary>
-/// <param name="data"> Data from port in form of char of array</param>
-/// <returns>Integer angle</returns>
 int ComPort::toAngle(char* data) {
     if (data[1] == ' ' && data[2] == ' ') {
         return ConvertCharToInt(data[3]);
@@ -143,23 +118,12 @@ int ComPort::toAngle(char* data) {
     return -1;
 }
 
-/// <summary>
-/// Make string for the port command to get both angles
-/// </summary>
-/// <param name="az">azimuth</param>
-/// <param name="el">elevation</param>
-/// <returns>Command in the form of string for the port</returns>
 string ComPort::makeTurnCommand(int const& az, int const& el) {
     string azStr = makeAngle(az);
     string elStr = makeAngle(el);
     return "W" + azStr + " " + elStr;
 }
 
-/// <summary>
-/// Convert integer angle to string for the port command
-/// </summary>
-/// <param name="x"></param>
-/// <returns>Angle in the form of the string</returns>
 string ComPort::makeAngle(int x) {
     string str = to_string(x);
     if (x == 0) {
@@ -171,11 +135,6 @@ string ComPort::makeAngle(int x) {
     return str;
 }
 
-/// <summary>
-/// Give command to the port to turn at the specified angles
-/// </summary>
-/// <param name="azimuth">azimuth angle</param>
-/// <param name="elevation">elevation angle</param>
 void ComPort::turnOnAngles(double azimuth, double elevation) {
     string command = makeTurnCommand((int)azimuth, (int)elevation);
     if (command == "") {
@@ -184,9 +143,6 @@ void ComPort::turnOnAngles(double azimuth, double elevation) {
     giveCommand(command);
 }
 
-/// <summary>
-/// Send command and print angles in form as they are given by port
-/// </summary>
 void ComPort::printCurrentAngles() {
     //char* command = portCommand.GetAnglesCommand();
     string command = "C2";
@@ -200,10 +156,7 @@ void ComPort::printCurrentAngles() {
     }
 }
 
-/// <summary>
-/// Send the command and get current azimuth
-/// </summary>
-/// <returns></returns>
+
 int ComPort::getAzimuth() {
     string command = "C";
     giveCommand(command);
@@ -211,10 +164,6 @@ int ComPort::getAzimuth() {
 }
 
 
-/// <summary>
-/// Send the command and get elevation angle
-/// </summary>
-/// <returns></returns>
 int ComPort::getElevation() {
     string command = "B";
     giveCommand(command);
