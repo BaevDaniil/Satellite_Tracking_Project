@@ -17,47 +17,47 @@ Program::Program(int const& argc, char** argv) : argc(argc), argv(argv) {
 
 void Program::run() {
 
-	po::variables_map vm = readCmdLine(argc, argv);
+    po::variables_map vm = readCmdLine(argc, argv);
 
-	if (vm.count("help")) {
-		cout << desc << endl;
-		return;
-	}
+    if (vm.count("help")) {
+        cout << desc << endl;
+        return;
+    }
 
 	shared_ptr<SatTrackInterface> trackSat = make_shared< SatTrackInterface>(params, vm["latitude"].as<double>(), vm["longitude"].as<double>(), vm["timeZone"].as<int>());
 
-	if (vm.count("predict")) {
-		int days = vm["days"].as<int>();
-		predict(trackSat, days);
-	}
-	if (vm.count("track")) {
-		trackSat->connectAntena();
-		track(trackSat);
-	}
-	if (vm.count("autoTrack")) {
-		trackSat->connectAntena();
-		autoTracking(trackSat);
-	}
+    if (vm.count("predict")) {
+        int days = vm["days"].as<int>();
+        predict(trackSat, days);
+    }
+    if (vm.count("track")) {
+        trackSat->connectAntena();
+        track(trackSat);
+    }
+    if (vm.count("autoTrack")) {
+        trackSat->connectAntena();
+        autoTracking(trackSat);
+    }
 }
 
 
 po::variables_map Program::readCmdLine(int const& argc, char** argv) {
-	po::variables_map vm;
+    po::variables_map vm;
 
-	// parse arguments
-	po::store(po::parse_command_line(argc, argv, desc), vm);
-	// check arguments
+    // parse arguments
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    // check arguments
 
-	try {
-		po::notify(vm);
-	}
-	catch (std::exception& e) {
-		std::cout << "Error: " << e.what() << std::endl;
-		std::cout << desc << std::endl;
-		return nullptr;
-	}
+    try {
+        po::notify(vm);
+    }
+    catch (std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << desc << std::endl;
+        return nullptr;
+    }
 
-	return vm;
+    return vm;
 }
 
 
@@ -65,37 +65,37 @@ void Program::autoTracking(const shared_ptr<SatTrackInterface>& track) {
 	DateTime currentTime = DateTime::Now();
 	shared_ptr<Satellite> currentSat = make_shared<Satellite>();
 
-	vector<shared_ptr<Satellite>> satList = track->getSatellites();
-	vector<shared_ptr<Satellite>> visibleSatList;
-	currentSat = nullptr;
-	while (true) {
-		currentTime = DateTime::Now();
-		if (!currentSat) {
-			for (auto& s : satList) {
-				s->updateData();
-				s->updatePassInfo(currentTime);
-			}
+    vector<shared_ptr<Satellite>> satList = track->getSatellites();
+    vector<shared_ptr<Satellite>> visibleSatList;
+    currentSat = nullptr;
+    while (true) {
+        currentTime = DateTime::Now();
+        if (!currentSat) {
+            for (auto& s : satList) {
+                s->updateData();
+                s->updatePassInfo(currentTime);
+            }
 
-			for (auto& sat : satList) {
-				if (sat->isVisible()) {
-					visibleSatList.push_back(sat);
-				}
-			}
-			currentSat = (visibleSatList.size() == 0 ? nextSat(satList) : maxElevationSat(visibleSatList));
-			
-		}
-		
-		// set antenna in necessary position for waiting next satellite
-		track->antenna->trackSatellite(currentSat);
-		track->antenna->updateCurrentAngles();
-	
-		currentTime = DateTime::Now();
+            for (auto& sat : satList) {
+                if (sat->isVisible()) {
+                    visibleSatList.push_back(sat);
+                }
+            }
+            currentSat = (visibleSatList.size() == 0 ? nextSat(satList) : maxElevationSat(visibleSatList));
 
-		if (currentTime >= currentSat->getLos()) {
-			currentSat = nullptr;		
-			visibleSatList.clear();
-		}
-	}
+        }
+
+        // set antenna in necessary position for waiting next satellite
+        track->antenna->trackSatellite(currentSat);
+        track->antenna->updateCurrentAngles();
+
+        currentTime = DateTime::Now();
+
+        if (currentTime >= currentSat->getLos()) {
+            currentSat = nullptr;
+            visibleSatList.clear();
+        }
+    }
 }
 
 void Program::track(const shared_ptr<SatTrackInterface>& track) {

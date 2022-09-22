@@ -58,8 +58,8 @@ public:
 	~ComPort() { closePort(); };
 
 private:
-	HANDLE hSerial{};
-	wstring portName;
+    HANDLE hSerial{};
+    wstring portName;
 
 	/**
 	* \brief Set parametrs for connection (by default)

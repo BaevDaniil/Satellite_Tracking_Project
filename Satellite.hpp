@@ -4,10 +4,10 @@
 #include <list>
 #include<vector>
 #include <cmath>
-#include "libsgp4/SGP4.h"
-#include "libsgp4/CoordTopocentric.h"
-#include "libsgp4/CoordGeodetic.h"
-#include "libsgp4/Observer.h"
+#include <SGP4.h>
+#include <CoordTopocentric.h>
+#include <CoordGeodetic.h>
+#include <Observer.h>
 #include "Handle.hpp"
 
 
@@ -24,26 +24,26 @@ const double site_altitude = 0;
 
 class TrackInfo {
 public:
-	DateTime time;
-	DateTime localTime;
-	double azimuth = 0;
-	double elevation = 0;
-	double longitude = 0.0;
-	double latitude = 0.0;
-	double altitude= 0.0;
+    DateTime time;
+    DateTime localTime;
+    double azimuth = 0;
+    double elevation = 0;
+    double longitude = 0.0;
+    double latitude = 0.0;
+    double altitude = 0.0;
 };
 
 class PassDetails {
 public:
-	DateTime aos;
-	DateTime los;
-	double max_elevation = 0.0;
+    DateTime aos;
+    DateTime los;
+    double max_elevation = 0.0;
 };
 
-enum class Direction { 
-	east, 
-	west,
-	unknown,
+enum class Direction {
+    east,
+    west,
+    unknown,
 };
 
 class Satellite {
@@ -217,47 +217,47 @@ public:
 	DateTime toLocalTime(DateTime time) { return time.AddHours((double)timeSpan); }
 
 private:
-	const string name;
-	shared_ptr<Tle> tle;
-	TrackInfo info;
-	CoordGeodetic site{ 0, 0, 0 };
-	Observer obs{0, 0, 0};
-	int timeSpan;
+    const string name;
+    shared_ptr<Tle> tle;
+    TrackInfo info;
+    CoordGeodetic site{ 0, 0, 0 };
+    Observer obs{ 0, 0, 0 };
+    int timeSpan;
 
 	list<PassDetails> passList;
 
-	PassDetails passInfo{0, 0, 0};
+    PassDetails passInfo{ 0, 0, 0 };
 
-	Direction dir = Direction::unknown;
-
-
-
-	void updatePassDetails(const CoordGeodetic& user_geo,
-		SGP4 const& sgp4,
-		const DateTime& start_time,
-		const DateTime& end_time,
-		const int time_step);
-
-	void createPassList(
-		CoordGeodetic const& user_geo,
-		SGP4 const& sgp4,
-		DateTime const& start_time,
-		DateTime const& end_time,
-		const int time_step);
-
-	double findMaxElevation(
-		CoordGeodetic const& user_geo,
-		SGP4 const& sgp4,
-		DateTime const& aos,
-		DateTime const& los);
+    Direction dir = Direction::unknown;
 
 
-	DateTime findCrossingPoint(
-		const CoordGeodetic& user_geo,
-		SGP4 const& sgp4,
-		DateTime const& initial_time1,
-		DateTime const& initial_time2,
-		bool finding_aos);
 
-	void defineDirection();
+    void updatePassDetails(const CoordGeodetic& user_geo,
+        SGP4 const& sgp4,
+        const DateTime& start_time,
+        const DateTime& end_time,
+        const int time_step);
+
+    void createPassList(
+        CoordGeodetic const& user_geo,
+        SGP4 const& sgp4,
+        DateTime const& start_time,
+        DateTime const& end_time,
+        const int time_step);
+
+    double findMaxElevation(
+        CoordGeodetic const& user_geo,
+        SGP4 const& sgp4,
+        DateTime const& aos,
+        DateTime const& los);
+
+
+    DateTime findCrossingPoint(
+        const CoordGeodetic& user_geo,
+        SGP4 const& sgp4,
+        DateTime const& initial_time1,
+        DateTime const& initial_time2,
+        bool finding_aos);
+
+    void defineDirection();
 };

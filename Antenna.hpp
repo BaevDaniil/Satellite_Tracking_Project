@@ -58,11 +58,11 @@ public:
 	void move(int const& az, int const& el) { port->turnOnAngles(az, el); }
 
 private:
-	int azimuth = 0;
-	int elevation = 0;
-	bool waitingState = true;
-	shared_ptr<ComPort> port;
-	shared_ptr<Satellite> currentSat = nullptr;
+    int azimuth = 0;
+    int elevation = 0;
+    bool waitingState = true;
+    shared_ptr<ComPort> port;
+    shared_ptr<Satellite> currentSat = nullptr;
 
 
 	/**
